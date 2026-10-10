@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClickNumber</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        background-color: #f7efe5;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        color: #333;
+    }
+    main {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+    .card {
+        background: #ffffff;
+        padding: 40px 60px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+    main h1 {
+        font-size: 80px;
+        color: #2c3e50;
+        font-weight: 600;
+        min-width: 120px;
+        text-align: center;
+    }
+    .btn {
+        display: flex;
+        gap: 12px;
+    }
+    .btn button {
+        padding: 12px 24px;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 8px;
+        border: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    #decrementButton {
+        background-color: #fee2e2;
+        color: #dc2626;
+    }
+    #decrementButton:hover {
+        background-color: #fecaca;
+    }
+    #incrementButton {
+        background-color: #dcfce7;
+        color: #16a34a;
+    }
+    #incrementButton:hover {
+        background-color: #bbf7d0;
+    }
+    .btn button:active {
+        transform: scale(0.96);
+    }
+    p a {
+        color: #7f8c8d;
+        text-decoration: none;
+        font-size: 14px;
+        transition: color 0.2s;
+    }
+    p a:hover {
+        color: #2c3e50;
+        text-decoration: underline;
+    }
+</style>
+<body id="body">
+    <main>
+        <div class="card">
+            <h1 id="headingNumber">0</h1>
+            <div class="btn">
+                <button id="decrementButton">-1</button>
+                <button id="incrementButton">+1</button>
+            </div>
+            <p><a href="#" id="resetButton">Reset Count</a></p>
+        </div>
+    </main>
+</body>
+<script>
+    let headingNumber = document.getElementById('headingNumber');
+    const decrementButton = document.getElementById('decrementButton');
+    const incrementButton = document.getElementById('incrementButton');
+    const resetButton = document.getElementById('resetButton');
+    let body = document.getElementById('body');
+    const suara = new Audio('/ClickNumber/asset/best_sound-in-the-world.mp3');
+    let fifty = false;
+
+    function updateCount(amount) {
+        let currentCount = parseInt(headingNumber.textContent);
+        let newCount = currentCount + amount;
+
+        if(newCount < 0){
+            newCount = 0;
+            alert('Mentok mas!');
+        } 
+
+        if(newCount == 15 || newCount == 30 || newCount == 45){
+            body.style.background = 'blue';
+        } else {
+            body.style.background = '#f7efe5';
+        }
+
+        if(newCount == 50){
+            if(!fifty){
+                Swal.fire({
+                    title: 'Selamat!',
+                    text: 'Anda sudah mencapai ANGKA 50🎉',
+                    icon: 'success',
+                });
+            }
+        }
+        if(newCount == 100){
+            if(!fifty){
+                Swal.fire({
+                    title: 'CARI KERJA BRO🙏😭🥀',
+                    icon: 'warning',
+                });
+            }
+            newCount = 0;
+        }
+        headingNumber.textContent = newCount;
+    }
+
+    incrementButton.addEventListener('click', () => {
+        updateCount(+1);
+    });
+
+    decrementButton.addEventListener('click', () => {
+        updateCount(-1);
+    });
+
+    resetButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        headingNumber.textContent = 0;
+    });
+</script>
+</html>
